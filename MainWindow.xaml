@@ -3,59 +3,119 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:WpfDemo"
         mc:Ignorable="d"
-        Title="Calculator" Height="400" Width="320">
-    <Grid HorizontalAlignment="Right" Width="300">
-        <TextBox x:Name="Display" 
-                 HorizontalAlignment="Stretch" 
-                 VerticalAlignment="Top" 
-                 Height="70" 
-                 FontSize="24" 
-                 TextAlignment="Right" 
-                 IsReadOnly="true" 
-        Margin="10"/>
-        <Grid VerticalAlignment="Bottom" Margin="10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        Title="Demo Settings" Height="700" Width="1100"
+        >
+    <Grid>
+        <StackPanel Margin="10">
+            <!-- Tiêu đề -->
+            <Label 
+                Content="Nam Dinh Vu Port" 
+                FontSize="20" 
+                FontWeight="Bold" 
+                Margin="10,0,0,0"
+            />
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+            <!-- Nhãn thư mục chứa ảnh-->
+            <Label 
+                Content="Thư mục chứa ảnh:" 
+                FontWeight="Bold" 
+                VerticalAlignment="Center" 
+                Margin="10,0,0,0"
+            />
 
-            <Button Content="AC" x:Name="ClearButton" Grid.Row="0" Grid.Column="0" Click="Clear_Click"/>
-            <Button Content="±" Grid.Row="0" Grid.Column="1" Click="PlusMinus_Click" MinWidth="80" MinHeight="40" />
-            <Button Content="%" Grid.Row="0" Grid.Column="2" Click="Percent_Click"  />
-            <Button Content="/" Grid.Row="0" Grid.Column="3" Click="Operator_Click"/>
+            <!-- Nội dung đường dẫn -->
+            <StackPanel Margin="8">
+                <TextBox 
+                    Name="filePathTextBox" 
+                    Width="300" Height="25" 
+                    HorizontalAlignment="Left" 
+                    Margin="10,0,0,0"  
+                    Template="{StaticResource TextBoxWithButtonTemplate}" 
+                    TextChanged="TextBox_TextChanged" />
+                <TextBox 
+                    Name="filePathTextBox1" Width="300" 
+                    Height="25" HorizontalAlignment="Left" 
+                    Margin="10,10,0,0" Padding="0,0,30,0" 
+                    Template="{StaticResource TextBoxWithButtonTemplate}" 
+                    TextChanged="TextBox_TextChanged" />
+            </StackPanel>
 
-            <Button Content="7" Grid.Row="1" Grid.Column="0" Click="Button_Click"  MinWidth="80" MinHeight="40"/>
-            <Button Content="8" Grid.Row="1" Grid.Column="1" Click="Button_Click"/>
-            <Button Content="9" Grid.Row="1" Grid.Column="2" Click="Button_Click"/>
-            <Button Content="*" Grid.Row="1" Grid.Column="3" Click="Operator_Click"/>
-
-            <Button Content="4" Grid.Row="2" Grid.Column="0" Click="Button_Click" MinWidth="80" MinHeight="40"/>
-            <Button Content="5" Grid.Row="2" Grid.Column="1" Click="Button_Click"/>
-            <Button Content="6" Grid.Row="2" Grid.Column="2" Click="Button_Click"/>
-            <Button Content="-" Grid.Row="2" Grid.Column="3" Click="Operator_Click"/>
-
-            <Button Content="1" Grid.Row="3" Grid.Column="0" Click="Button_Click" MinWidth="80" MinHeight="40"/>
-            <Button Content="2" Grid.Row="3" Grid.Column="1" Click="Button_Click"/>
-            <Button Content="3" Grid.Row="3" Grid.Column="2" Click="Button_Click"/>
-            <Button Content="+" Grid.Row="3" Grid.Column="3" Click="Operator_Click"/>
-
-            <Button Content="0" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Click="Button_Click" MinWidth="80" MinHeight="40"/>
-            <Button Content="." Grid.Row="4" Grid.Column="2" Click="Button_Click"/>
-            <Button Content="=" Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="1" Click="Equals_Click"/>
-        </Grid>
+            <!-- Thêm thư mục -->
+            <Button Width="120" Height="30" HorizontalAlignment="Left"  Margin="18,0,0,0" Template="{StaticResource ButtonTemplate}" Click="Button_Click"/>
+             
+            <!-- Thiết lập gửi mail -->
+            <Label FontSize="13" FontWeight="Bold" HorizontalAlignment="Left" Margin="15,10,0,0" Content="Thiết lập gửi mail:"/>
 
 
+            <StackPanel Margin="15,0,0,0">
+                <StackPanel Orientation="Horizontal"  Margin="0,10,50,10" HorizontalAlignment="Left" >
+                    <!-- From -->
+                    <Label Content="From:" FontSize="12" FontWeight="Bold"/>
+                    <TextBox Width="300" Margin="50,0,0,0"/>
+
+                    <!-- Password -->
+                    <Label Content="Password:" Padding="40,5,5,0" FontSize="12" FontWeight="Bold"/>
+                    <TextBox Width="150"/>
+
+                    <!-- Máy chủ gửi mail -->
+                    <Label Content="Máy chủ gửi mail: " FontSize="12" FontWeight="Bold" Padding="40,5,5,0"/>
+                    <TextBox Width="151"/>
+                </StackPanel>
+                 
+                
+                <StackPanel Orientation="Horizontal"  Margin="0,10,0,10" HorizontalAlignment="Left">
+                    <!-- To -->
+                    <Label Content="To:" FontSize="12" FontWeight="Bold"/>
+                    <TextBox Width="400" Margin="66,0,0,0" />
+
+                    <!-- Cc -->
+                    <Label Content="Cc:" FontSize="12" FontWeight="Bold" Padding="30,4,5,0"/>
+                    <TextBox Width="400" Padding="0,10,0,0"/>
+                </StackPanel>
+
+                
+
+                <!-- Mẫu tiêu đề -->
+                <StackPanel Orientation="Horizontal"  Margin="0,10,0,10" HorizontalAlignment="Left">
+                    <Label Content="Mẫu tiêu đề:" FontSize="12" FontWeight="Bold"/>
+                    <TextBox Width="850" Margin="13,0,0,0"/>
+                </StackPanel>
+                
+                <!-- Mẫu email-->
+                <StackPanel>
+                    <Label Content="Mẫu email:" FontSize="12" FontWeight="Bold"/>
+                    <TextBox Width="934" 
+                             Height="150" 
+                             HorizontalAlignment="Left" 
+                             Margin="10,10,0,0"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             VerticalScrollBarVisibility="Auto"
+                             />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal"  Margin="0,10,0,10" HorizontalAlignment="Left">
+                    <RadioButton 
+                        x:Name="radioOption" 
+                        Content="Tự động gửi mail sau: " 
+                        GroupName="RadioGroup" 
+                        Margin="5" 
+                        FontSize="12" 
+                        FontWeight="Bold" 
+                    />
+                    <RadioButton 
+                        x:Name="radioOption1" 
+                        Content="Gửi mail bằng tay" 
+                        GroupName="RadioGroup" 
+                        Margin="5"  
+                        FontSize="12" 
+                        FontWeight="Bold" 
+                    />
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>

@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace WpfDemo
 {
@@ -16,101 +17,50 @@ namespace WpfDemo
     /// </summary>
     public partial class MainWindow : Window
     {
-        private string _currentInput = "";
-        private string _operator = "";
-        private double _result = 0;
+
 
         public MainWindow()
         {
             InitializeComponent();
         }
 
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
-            _currentInput += button.Content.ToString();
-            Display.Text = _currentInput;
-
-            UpdateClearButton();
-        }
-
-
-        private void Operator_Click(object sender, RoutedEventArgs e)
-        {
-            Button button = sender as Button;
-            _operator = button.Content.ToString();
-            _result = double.Parse(_currentInput);
-            _currentInput = "";
-            UpdateClearButton();
-        }
-
-
-        private void Equals_Click(object sender, RoutedEventArgs e)
-        {
-            double secondNumber = double.Parse(_currentInput);
-
-            switch (_operator)
+            var dialog = new CommonOpenFileDialog
             {
-                case "+":
-                    _result += secondNumber;
-                    break;
-                case "-":
-                    _result -= secondNumber;
-                    break;
-                case "*":
-                    _result *= secondNumber;
-                    break;
-                case "/":
-                    if (secondNumber != 0)
-                        _result /= secondNumber;
-                    else
-                        MessageBox.Show("Cannot divide by zero");
-                    break;
-            }
-            Display.Text = _result.ToString();
-            _currentInput = _result.ToString();
-            _operator = "";
-            UpdateClearButton();
-        }
-        private void Clear_Click(object sender, RoutedEventArgs e)
-        {
-                _currentInput = "";
-                _operator = "";
-                _result = 0;
-                Display.Text = "";
-                UpdateClearButton();  
-        }
-        private void UpdateClearButton()
-        {
-            if (string.IsNullOrEmpty(_currentInput))
-            {
-                ClearButton.Content = "AC";
-            }
-            else
-            {
-                ClearButton.Content = "C";
-            }
-        }
+                IsFolderPicker = true, // Chỉ chọn thư mục
+                Title = "Chọn thư mục chứa ảnh"
+            };
 
-        private void PlusMinus_Click(object sender, RoutedEventArgs e)
-        {
-            if (_currentInput.StartsWith("-"))
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                _currentInput = _currentInput.Substring(1);
-            }
-            else
-            {
-                _currentInput = "-" + _currentInput;
-            }
-            Display.Text = _currentInput;
-        }
+                string selectedPath = dialog.FileName;
 
-        private void Percent_Click(object sender, RoutedEventArgs e)
-        {
-            if (double.TryParse(_currentInput, out double number))
-            {
-                _currentInput = (number / 100).ToString();
-                Display.Text = _currentInput;
+                // Kiểm tra nếu đường dẫn đã tồn tại
+                if (filePathTextBox.Text == selectedPath || filePathTextBox1.Text == selectedPath)
+                {
+                    MessageBox.Show("Thư mục này đã được chọn rồi!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return; // Thoát ngay nếu thư mục đã có
+                }
+
+                // Gán giá trị vào TextBox trống
+                if (string.IsNullOrEmpty(filePathTextBox.Text))
+                {
+                    filePathTextBox.Text = selectedPath;
+                }
+                else if (string.IsNullOrEmpty(filePathTextBox1.Text))
+                {
+                    filePathTextBox1.Text = selectedPath;
+                }
+                else
+                {
+                    MessageBox.Show("Chỉ có thể chọn tối đa 2 thư mục!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
             }
         }
     }

@@ -2,8 +2,50 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:WpfDemo"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <!-- Hộp thoại chứa thùng rác -->
+            <ControlTemplate x:Key="TextBoxWithButtonTemplate" TargetType="TextBox">
+                <Grid>
+                    <Border Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ScrollViewer x:Name="PART_ContentHost" Margin="0"/>
+                    </Border>
+                    <Button 
+                        Width="25" 
+                        Height="23" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Center" 
+                        Margin="0,0,10,0" 
+                        Background="White" 
+                        BorderBrush="White"
+                        Click="TrashButton_Click"
+                        Tag="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                    >
+                        <materialDesign:PackIcon Kind="Delete" Width="20" Height="20" Foreground="Red"/>
+                    </Button>
+                </Grid>
+
+                
+            </ControlTemplate>
+            
+            <!-- Nút để mở thư mục trên máy tính -->
+            <ControlTemplate x:Key="ButtonTemplate" TargetType="Button">
+                <Border Background="{TemplateBinding Background}" 
+                        BorderBrush="{TemplateBinding BorderBrush}" 
+                        BorderThickness="{TemplateBinding BorderThickness}" 
+                        CornerRadius="5">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <materialDesign:PackIcon Kind="Plus" Width="20" Height="20" Margin="0,0,5,0" Foreground="ForestGreen"/>
+                        <TextBlock Text="Thêm thư mục" VerticalAlignment="Center" FontWeight="Bold" Foreground="Gray"/>
+                    </StackPanel>
+                </Border>
+            </ControlTemplate>
+            
+            
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
